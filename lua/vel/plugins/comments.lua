@@ -1,14 +1,14 @@
 return {
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
-		event = "VeryLazy",
+		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			enable_autocmd = false,
 		},
 	},
 	{
 		"numToStr/Comment.nvim",
-		event = { "VeryLazy", "BufReadPre", "BufNewFile" },
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"JoosepAlviste/nvim-ts-context-commentstring",
 		},
