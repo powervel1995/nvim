@@ -1,8 +1,13 @@
 return {
 	"folke/flash.nvim",
-	event = { "BufReadPre", "BufNewFile" },
-	vscode = true,
-	opts = {},
+	event = "VeryLazy",
+	opts = {
+		modes = {
+			char = {
+				jump_labels = true,
+			},
+		},
+	},
 	keys = {
 		{
 			"s",
