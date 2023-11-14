@@ -8,11 +8,26 @@ keymap.set("i", "jj", "<Esc>", { desc = "Escape insert mode" })
 keymap.set("i", "jk", "<Esc>", { desc = "Escape insert mode" })
 
 -- Remap for dealing with word wrap
-keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+keymap.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- insert mode move between beginningand end of line
+keymap.set("i", "<C-b>", "<ESC>^i", { desc = "Beginning of line" })
+keymap.set("i", "<C-e>", "<End>", { desc = "End of line" })
 
 -- Inprove pasting
 keymap.set("x", "<leader>p", [["_dP]], { desc = "Preserve previous word when pasting" })
+-- keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy the content to system clipboard" })
+-- keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy the content to system clipboard" })
+
+-- scroll at the center of screen
+keymap.set("n", "J", "mzJ`z", { desc = "Set the cursor on same position" })
+keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down half page center page" })
+keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move up half page center page" })
+keymap.set("n", "n", "nzzzv", { desc = "Search word with half page" })
+keymap.set("n", "N", "Nzzzv", { desc = "Search word with half page" })
 
 -- Move to window using the <ctrl> hjkl keys
 keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
@@ -45,6 +60,14 @@ keymap.set(
 	"<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
 	{ desc = "Redraw / clear hlsearch / diff update" }
 )
+
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+keymap.set("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next search result" })
+keymap.set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+keymap.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+keymap.set("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev search result" })
+keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 -- save file
 keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
