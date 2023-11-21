@@ -83,7 +83,8 @@ return {
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
-		local capabilities = cmp_nvim_lsp.default_capabilities()
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
 		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
@@ -94,12 +95,6 @@ return {
 
 		-- configure html server
 		lspconfig["html"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		-- configure typescript server with plugin
-		lspconfig["tsserver"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
@@ -116,41 +111,10 @@ return {
 			on_attach = on_attach,
 		})
 
-		-- configure svelte server
-		lspconfig["svelte"].setup({
-			capabilities = capabilities,
-			on_attach = function(client, bufnr)
-				on_attach(client, bufnr)
-
-				vim.api.nvim_create_autocmd("BufWritePost", {
-					pattern = { "*.js", "*.ts" },
-					callback = function(ctx)
-						if client.name == "svelte" then
-							client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.file })
-						end
-					end,
-				})
-			end,
-		})
-
 		-- configure prisma orm server
 		lspconfig["prismals"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		})
-
-		-- configure graphql language server
-		lspconfig["graphql"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-		})
-
-		-- configure emmet language server
-		lspconfig["emmet_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
 		})
 
 		-- configure python server
@@ -171,10 +135,68 @@ return {
 			on_attach = on_attach,
 		})
 
+		-- configure angular server
+		lspconfig["angularls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
 		-- configure sql server
 		lspconfig["sqlls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
+		})
+
+		-- configure graphql language server
+		lspconfig["graphql"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+		})
+
+		-- configure emmet language server
+		lspconfig["emmet_ls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+		})
+
+		-- configure svelte server
+		lspconfig["svelte"].setup({
+			capabilities = capabilities,
+			on_attach = function(client, bufnr)
+				on_attach(client, bufnr)
+
+				vim.api.nvim_create_autocmd("BufWritePost", {
+					pattern = { "*.js", "*.ts" },
+					callback = function(ctx)
+						if client.name == "svelte" then
+							client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.file })
+						end
+					end,
+				})
+			end,
+		})
+
+		-- configure typescript server with plugin
+		local function organize_imports()
+			local params = {
+				command = "_typescript.organizeImports",
+				arguments = { vim.api.nvim_buf_get_name(0) },
+				title = "",
+			}
+			vim.lsp.buf.execute_command(params)
+		end
+
+		lspconfig["tsserver"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			commands = {
+				OrganizeImports = {
+					organize_imports,
+					description = "Organize Imports",
+				},
+			},
 		})
 
 		-- configure lua server (with special settings)
