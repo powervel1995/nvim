@@ -94,5 +94,5 @@ opt.fillchars = {
 	eob = " ",
 }
 
--- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
+-- visible in markdown files
+opt.conceallevel = 0
