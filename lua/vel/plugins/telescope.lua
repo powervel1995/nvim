@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
+		event = "VeryLazy",
 		branch = "0.1.x",
 		cmd = "Telescope",
 		dependencies = {
@@ -25,9 +26,10 @@ return {
 			{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
 			{ "<leader>fg", "<cmd>Telescope grep_string<cr>", desc = "Grep String" },
 			-- git
-			{ "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-			{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
-			{ "<leader>gf", "<cmd>Telescope git_files<CR>", desc = "files" },
+			{ "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
+			{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Status" },
+			{ "<leader>gf", "<cmd>Telescope git_files<CR>", desc = "Files" },
+			{ "<leader>gb", "<cmd>Telescope git_branches<CR>", desc = "Branches" },
 			-- search
 			{ '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
 			{ "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
@@ -45,16 +47,32 @@ return {
 			{ "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
 			{ "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
 			{ "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
+			{ "<leader>ss", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Find symbols Files" },
 			{ "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
 			{ "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
 		},
 		opts = {
+			-- change the stype for the telescope find_files and git_files
+			pickers = {
+				find_files = {
+					previewer = false,
+					path_display = function(_, path)
+						return require("vel.core.utils").change_path_display(path)
+					end,
+				},
+				git_files = {
+					previewer = false,
+					path_display = function(_, path)
+						return require("vel.core.utils").change_path_display(path)
+					end,
+				},
+			},
 			defaults = {
 				layout_strategy = "horizontal",
 				layout_config = { prompt_position = "top" },
 				sorting_strategy = "ascending",
 				winblend = 0,
-				file_ignore_patterns = { ".git/", "node_modules/", "dist/", "target/" },
+				file_ignore_patterns = { ".git/", "node_modules/", "dist/", "target/", ".angular/" },
 				mappings = {
 					i = {
 						["<esc>"] = function(...)
@@ -65,6 +83,14 @@ return {
 						end,
 						["<C-j>"] = function(...)
 							require("telescope.actions").move_selection_next(...) -- move to next result
+						end,
+						["<M-p>"] = function(...)
+							require("telescope.actions.layout").toggle_preview(...)
+						end,
+					},
+					n = {
+						["<M-p>"] = function(...)
+							require("telescope.actions.layout").toggle_preview(...)
 						end,
 					},
 				},
@@ -79,6 +105,22 @@ return {
 				},
 			},
 		},
+		config = function(_, opts)
+			require("telescope").setup(opts)
+			local utils = require("vel.core.utils")
+
+			-- change parent directory highlights style
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "TelescopeResults",
+				group = utils.augroup("telescope_result"),
+				callback = function(ctx)
+					vim.api.nvim_buf_call(ctx.buf, function()
+						vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+						vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+					end)
+				end,
+			})
+		end,
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",

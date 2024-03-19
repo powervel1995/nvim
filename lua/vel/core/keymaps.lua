@@ -5,7 +5,7 @@ local keymap = vim.keymap -- for conciseness
 
 -- Escape insert mode
 keymap.set("i", "jj", "<Esc>", { desc = "Escape insert mode", remap = true, silent = true })
--- keymap.set("i", "jk", "<Esc>", { desc = "Escape insert mode" })
+keymap.set("i", "jk", "<Esc>", { desc = "Escape insert mode" })
 
 -- Remap for dealing with word wrap
 keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -14,13 +14,26 @@ keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent
 keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- insert mode move between beginningand end of line
-keymap.set("i", "<C-b>", "<ESC>^i", { desc = "Beginning of line" })
-keymap.set("i", "<C-e>", "<End>", { desc = "End of line" })
+-- keymap.set("i", "<C-b>", "<ESC>^i", { desc = "Beginning of line" })
+-- keymap.set("i", "<C-e>", "<End>", { desc = "End of line" })
 
 -- Inprove pasting
-keymap.set("x", "<leader>p", [["_dP]], { desc = "Preserve previous word when pasting" })
+keymap.set({"x", "v"}, "p", '"_dp', { desc = "Preserve previous word when pasting", silent = true })
+keymap.set({"x", "v"}, "P", '"_dP', { desc = "Preserve previous word when pasting", silent = true })
 -- keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy the content to system clipboard" })
 -- keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy the content to system clipboard" })
+
+-- Change text without putting it into the vim register
+keymap.set("n", "c", '"_c', { silent = true })
+keymap.set("n", "C", '"_C', { silent = true })
+keymap.set("n", "cc", '"_cc', { silent = true })
+keymap.set("x", "c", '"_c', { silent = true })
+
+-- Don't yank on delete char
+keymap.set("n", "x", '"_x', { silent = true })
+keymap.set("n", "X", '"_X', { silent = true })
+keymap.set("v", "x", '"_x', { silent = true })
+keymap.set("v", "X", '"_X', { silent = true })
 
 -- scroll at the center of screen
 keymap.set("n", "J", "mzJ`z", { desc = "Set the cursor on same position" })
@@ -51,7 +64,15 @@ keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- Clear search with <esc>
-keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+keymap.set({ "i", "n" }, "<Esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+
+-- Keymaps for better default experience
+keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+-- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
+-- for people to discover. Otherwise, you normally need to press <c-\><c-n>, which
+-- is not what someone will guess without a bit more experience.
+keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Escape Escape exits terminal mode" })
 
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
@@ -86,14 +107,12 @@ keymap.set("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 -- quit
 keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 
--- highlights under cursor
-keymap.set("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
-
 -- windows
 keymap.set("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
 keymap.set("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 keymap.set("n", "<leader>wh", "<C-W>s", { desc = "Split window below", remap = true })
 keymap.set("n", "<leader>wv", "<C-W>v", { desc = "Split window right", remap = true })
+keymap.set("n", "<leader>wo", "<C-W>o", { desc = "Delete other window", remap = true })
 keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
 keymap.set("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
 
@@ -106,10 +125,6 @@ keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- buffers
-keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 keymap.set("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
@@ -118,7 +133,8 @@ keymap.set("i", ",", ",<c-g>u")
 keymap.set("i", ".", ".<c-g>u")
 keymap.set("i", ";", ";<c-g>u")
 
-keymap.set("n", "<C-c>", "<cmd> %y+ <CR>", { desc = "Copy whole file" })
+keymap.set("n", "<leader>y", "<cmd> %y+ <CR>", { desc = "Copy whole file" })
+keymap.set("n", "<C-a>", "ggVG", { desc = "Copy whole file" })
 
 keymap.set("n", "<leader>rp", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", {
 	desc = "inline find replace",
@@ -136,3 +152,6 @@ keymap.set("x", "Q", ":norm @q<CR>", { desc = " Macro for selecting multiple lin
 
 -- Open line, but stay in normal mode
 keymap.set("n", "<Leader><CR>", "o<Esc>", { desc = "Add blank line below in normal mode" })
+
+-- insert semicolon in the end
+keymap.set({ "n", "i" }, "<A-;>", "<Esc>miA;<Esc>`ii<ESC>", { desc = "Insert semicolon in the end" })
