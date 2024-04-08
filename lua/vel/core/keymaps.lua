@@ -35,6 +35,10 @@ keymap.set("n", "X", '"_X', { silent = true })
 keymap.set("v", "x", '"_x', { silent = true })
 keymap.set("v", "X", '"_X', { silent = true })
 
+-- Move to line beginning and end
+-- keymap.set({ 'n', 'v', 'x' }, 'gl', '$', { desc = 'End of line' })
+-- keymap.set({ 'n', 'v', 'x' }, 'gh', '^', { desc = 'Beginning of line' })
+
 -- scroll at the center of screen
 keymap.set("n", "J", "mzJ`z", { desc = "Set the cursor on same position" })
 keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down half page center page" })
@@ -93,6 +97,9 @@ keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search
 
 -- save file
 keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+
+-- Delete word right
+-- keymap.set({ "i"}, "<C-e>", "<C-o>dw", { desc = "Delete word right" })
 
 -- better indenting
 keymap.set("v", "<", "<gv")
