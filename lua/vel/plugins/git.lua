@@ -2,13 +2,13 @@ return {
 	{ "tpope/vim-fugitive", enabled = false, event = { "BufReadPre", "BufNewFile" } },
 	{
 		"NeogitOrg/neogit",
-		event = { "BufReadPre", "BufNewFile" },
+		evnet = "VeryLazy",
 		keys = {
 			{
 				"<leader>gg",
 				function()
 					local neogit = require("neogit")
-					neogit.open({ kind = "auto" })
+					neogit.open()
 				end,
 				desc = "Neogit toggle",
 				mode = { "n" },
@@ -18,7 +18,7 @@ return {
 	},
 	{
 		"sindrets/diffview.nvim",
-		event = { "BufReadPre", "BufNewFile" },
+		evnet = "VeryLazy",
 		keys = {
 			{
 				"<leader>gdo",
