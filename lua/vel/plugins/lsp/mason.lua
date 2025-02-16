@@ -49,7 +49,9 @@ return {
 				"yamlls",
 				"zls",
 				"jdtls",
-				'denols'
+				"denols",
+				"gopls",
+				"vtsls",
 			},
 			-- auto-install configured servers (with lspconfig)
 			automatic_installation = false, -- not the same as ensure_installed
@@ -67,6 +69,8 @@ return {
 				"black", -- python formatter
 				"pylint", -- python linter
 				"eslint_d", -- js linter
+				"goimports",
+				"gofumpt",
 			},
 		})
 	end,

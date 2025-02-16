@@ -167,7 +167,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 local function get_winbar_path()
   -- local full_path = vim.fn.expand("%:p")
   -- return full_path:gsub(vim.fn.expand("$HOME"), "~")
-  return "%t"
+  return "%f"
 end
 -- Function to get the number of open buffers using the :ls command
 local function get_buffer_count()
@@ -197,5 +197,6 @@ local function update_winbar()
 end
 -- Autocmd to update the winbar on BufEnter and WinEnter events
 vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+	group = utils.augroup("ShowWinBar"),
   callback = update_winbar,
 })

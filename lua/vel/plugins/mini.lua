@@ -1,6 +1,6 @@
 return {
-	{ "echasnovski/mini.statusline", event = "VeryLazy", opts = {} },
-	{ "echasnovski/mini.cursorword", event = "VeryLazy", opts = {} },
+	{ "echasnovski/mini.statusline", event = "VeryLazy", enabled = true, opts = {} },
+	{ "echasnovski/mini.cursorword", event = "VeryLazy", enabled = false, opts = {} },
 	{
 		"echasnovski/mini.pairs",
 		event = "VeryLazy",
@@ -63,6 +63,7 @@ return {
 	},
 	{
 		"echasnovski/mini.hipatterns",
+		enabled = false,
 		event = "VeryLazy",
 		config = function()
 			local hipatterns = require("mini.hipatterns")
@@ -82,7 +83,8 @@ return {
 	},
 	{
 		"echasnovski/mini.indentscope",
-		event = "VeryLazy",
+		enabled = false,
+		event = { "BufReadPre", "BufNewFile", "VeryLazy" },
 		opts = {
 			symbol = "│",
 			options = {
@@ -98,6 +100,12 @@ return {
 					"mason",
 					"toggleterm",
 					"NvimTree",
+					"fzf",
+					"notify",
+					"snacks_dashboard",
+					"snacks_notif",
+					"snacks_terminal",
+					"snacks_win",
 				},
 				callback = function()
 					vim.b.miniindentscope_disable = true
@@ -107,6 +115,7 @@ return {
 	},
 	{
 		"echasnovski/mini.surround",
+		enabled = false,
 		event = "VeryLazy",
 		opts = {
 			mappings = {
@@ -122,7 +131,7 @@ return {
 	},
 	{
 		"echasnovski/mini.bufremove",
-		enabled = true,
+		enabled = false,
 		event = { "BufReadPre", "BufNewFile" },
 		keys = {
 			{

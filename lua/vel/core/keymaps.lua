@@ -152,8 +152,8 @@ keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Lef
 -- Insert mode move cursor
 keymap.set("i", "<C-h>", "<Left>", { desc = "Move Cursor Left Insert Mode" })
 keymap.set("i", "<C-l>", "<Right>", { desc = "Move Cursor Right Insert Mode" })
-keymap.set("i", "<C-j>", "<Down>", { desc = "Move Cursor Down Insert Mode" })
-keymap.set("i", "<C-k>", "<Up>", { desc = "Move Cursor Up Insert Mode" })
+-- keymap.set("i", "<C-j>", "<Down>", { desc = "Move Cursor Down Insert Mode" })
+-- keymap.set("i", "<C-k>", "<Up>", { desc = "Move Cursor Up Insert Mode" })
 
 -- Quicker macro playback
 keymap.set("n", "Q", "@qj", { desc = "Macro for single line" })
@@ -164,6 +164,3 @@ keymap.set("n", "<Leader><CR>", "o<Esc>", { desc = "Add blank line below in norm
 
 -- insert semicolon in the end
 keymap.set({ "n", "i" }, "<A-;>", "<Esc>miA;<Esc>`ii<ESC>", { desc = "Insert semicolon in the end" })
-
--- Toggle Relative number
-keymap.set("n", "<leader>ur", "<cmd>set relativenumber!<cr>", { desc = "Toggle Relative Number" })

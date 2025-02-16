@@ -5,7 +5,6 @@ return {
 		branch = "0.1.x",
 		cmd = "Telescope",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",
@@ -78,7 +77,15 @@ return {
 				layout_config = {
 					preview_width = 0.4,
 				},
-				file_ignore_patterns = { ".git/", "node_modules/", "dist/", "target/", ".angular/", "src/assets" },
+				file_ignore_patterns = {
+					".git/",
+					"node_modules/",
+					"dist/",
+					"target/",
+					".angular/",
+					"src/assets",
+					"package%-lock.json",
+				},
 				mappings = {
 					i = {
 						["<esc>"] = function(...)
