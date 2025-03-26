@@ -5,7 +5,7 @@ return {
 	opts = {
 		bigfile = { enabled = true },
 		quickfile = { enabled = true },
-		words = { enabled = true },
+		words = { enabled = false },
 		statuscolumn = {
 			enabled = true,
 		},
@@ -15,18 +15,19 @@ return {
 		},
 		dashboard = {
 			enabled = true,
-			-- 			preset = {
-			-- 			  header = [[
-			-- ██╗   ██╗███████╗██╗
-			-- ██║   ██║██╔════╝██║
-			-- ██║   ██║█████╗  ██║
-			-- ╚██╗ ██╔╝██╔══╝  ██║
-			--  ╚████╔╝ ███████╗███████╗
-			--   ╚═══╝  ╚══════╝╚══════╝]]
-			-- 			}
+						preset = {
+						  header = [[
+██╗   ██╗███████╗██╗     
+██║   ██║██╔════╝██║     
+██║   ██║█████╗  ██║     
+╚██╗ ██╔╝██╔══╝  ██║     
+ ╚████╔╝ ███████╗███████╗
+  ╚═══╝  ╚══════╝╚══════╝]]
+						}
 		},
-		indent = { enabled = true },
-		scope = { enabled = true },
+		indent = { enabled = false },
+		scope = { enabled = false },
+		explorer = { enabled = true },
 	},
 	keys = {
 		{
@@ -79,6 +80,16 @@ return {
 				Snacks.zen()
 			end,
 			desc = "Toggle Zen Mode",
+		},
+		{
+			"<leader>fe",
+			function()
+				Snacks.explorer({
+					auto_close = true,
+					layout = { layout = { position = "right" } },
+				})
+			end,
+			desc = "File Explorer",
 		},
 	},
 	init = function()
