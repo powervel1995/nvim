@@ -60,44 +60,44 @@ return {
 				},
 			},
 			textobjects = {
-				-- select = {
-				-- 	enable = true,
-				--
-				-- 	-- Automatically jump forward to textobj, similar to targets.vim
-				-- 	lookahead = true,
-				--
-				-- 	keymaps = {
-				-- 		-- You can use the capture groups defined in textobjects.scm
-				-- 		["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
-				-- 		["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
-				-- 		["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
-				-- 		["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
-				--
-				-- 		-- works for javascript/typescript files (custom capture I created in after/queries/ecma/textobjects.scm)
-				-- 		["a:"] = { query = "@property.outer", desc = "Select outer part of an object property" },
-				-- 		["i:"] = { query = "@property.inner", desc = "Select inner part of an object property" },
-				-- 		["l:"] = { query = "@property.lhs", desc = "Select left part of an object property" },
-				-- 		["r:"] = { query = "@property.rhs", desc = "Select right part of an object property" },
-				--
-				-- 		["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
-				-- 		["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
-				--
-				-- 		["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
-				-- 		["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
-				--
-				-- 		["af"] = {
-				-- 			query = "@function.outer",
-				-- 			desc = "Select outer part of a method/function definition",
-				-- 		},
-				-- 		["if"] = {
-				-- 			query = "@function.inner",
-				-- 			desc = "Select inner part of a method/function definition",
-				-- 		},
-				--
-				-- 		["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
-				-- 		["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
-				-- 	},
-				-- },
+				select = {
+					enable = true,
+
+					-- Automatically jump forward to textobj, similar to targets.vim
+					lookahead = true,
+
+					keymaps = {
+						-- You can use the capture groups defined in textobjects.scm
+						["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
+						["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
+						["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
+						["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
+
+						-- works for javascript/typescript files (custom capture I created in after/queries/ecma/textobjects.scm)
+						["a:"] = { query = "@property.outer", desc = "Select outer part of an object property" },
+						["i:"] = { query = "@property.inner", desc = "Select inner part of an object property" },
+						["l:"] = { query = "@property.lhs", desc = "Select left part of an object property" },
+						["r:"] = { query = "@property.rhs", desc = "Select right part of an object property" },
+
+						["ao"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
+						["io"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
+
+						["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
+						["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
+
+						["af"] = {
+							query = "@function.outer",
+							desc = "Select outer part of a method/function definition",
+						},
+						["if"] = {
+							query = "@function.inner",
+							desc = "Select inner part of a method/function definition",
+						},
+
+						["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
+						["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
+					},
+				},
 				-- swap = {
 				-- 	enable = true,
 				-- 	swap_next = {
@@ -113,6 +113,15 @@ return {
 					goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
 					goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
 					goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+				},
+				lsp_interop = {
+					enable = true,
+					border = "none",
+					floating_preview_opts = {},
+					peek_definition_code = {
+						["<leader>df"] = "@function.outer",
+						["<leader>dF"] = "@class.outer",
+					},
 				},
 			},
 		},
@@ -140,7 +149,7 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		event = { "BufReadPre", "BufNewFile" },
-		opts = { max_lines = 0 },
+		opts = { max_lines = 5 },
 		keys = {
 			{
 				"<leader>ut",
@@ -149,52 +158,4 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"windwp/nvim-ts-autotag",
-	-- 	event = { "BufReadPre", "BufNewFile" },
-	-- 	config = function()
-	-- 		require("nvim-ts-autotag").setup({
-	-- 			opts = {
-	-- 				-- Defaults
-	-- 				enable_close_on_slash = true,
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-	-- {
-	-- 	"Wansmer/treesj",
-	-- 	cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
-	-- 	keys = {
-	-- 		{
-	-- 			"<leader>j",
-	-- 			function()
-	-- 				require("treesj").toggle()
-	-- 			end,
-	-- 			desc = "Toggle treesitter join",
-	-- 		},
-	-- 	},
-	-- 	opts = {
-	-- 		use_default_keymaps = false,
-	-- 	},
-	-- },
-	-- {
-	-- 	"windwp/nvim-autopairs",
-	-- 	enabled = false,
-	-- 	event = "InsertEnter",
-	-- 	opts = {
-	-- 		check_ts = true,
-	-- 		ts_config = {
-	-- 			lua = { "string" }, -- it will not add a pair on that treesitter node
-	-- 			javascript = { "template_string" },
-	-- 			java = false, -- don't check treesitter on java
-	-- 		},
-	-- 	},
-	-- },
-	-- {
-	-- 	"hiphish/rainbow-delimiters.nvim",
-	-- 	event = "VeryLazy",
-	-- 	config = function()
-	-- 		require("rainbow-delimiters.setup").setup({})
-	-- 	end,
-	-- },
 }
