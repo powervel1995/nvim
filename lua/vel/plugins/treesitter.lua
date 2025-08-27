@@ -4,10 +4,10 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		build = ":TSUpdate",
 		dependencies = {
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        enabled = false,
-      },
+			{
+				"nvim-treesitter/nvim-treesitter-textobjects",
+				enabled = false,
+			},
 		},
 		opts = {
 			auto_install = true,
@@ -151,8 +151,9 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",
+		enabled = false,
 		event = { "BufReadPre", "BufNewFile" },
-		opts = { max_lines = 5 },
+		opts = { max_lines = 2 },
 		keys = {
 			{
 				"<leader>ut",

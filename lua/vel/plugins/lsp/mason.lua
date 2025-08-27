@@ -5,6 +5,7 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
+	keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 	config = function()
 		-- import mason
 		local mason = require("mason")
@@ -72,6 +73,8 @@ return {
 				"goimports",
 				"gofumpt",
 				"golangci-lint",
+				"luacheck",
+				"cspell",
 			},
 		})
 	end,
